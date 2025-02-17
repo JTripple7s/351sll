@@ -11,16 +11,18 @@ regexes = [
     (r"\+", "operator"),
     (r">", "operator"),
     (r"\*", "operator"),
+    (r"=", "operator"),
     # separators
     (r"\)", "separator"),
     (r"\(", "separator"),
     (r":", "separator"),
-    (r"\"" r";", "separator"),
+    (r"\"", "separator"),
+    (r";", "separator"),
+
     (r"(?<!\S)(?!\b(?:int|float|if|else)\b)[a-zA-Z][a-zA-Z0-9]*", "identifier"),
-    (r"(?<!\S)[0-9]+(?!\S)", "int lit"),
-    (r"(?<!\S)[0-9]*\.[0-9]+(?!\S)", "float"),
+    (r"(?<!\S)[0-9]+(?!\w|\.\d)", "int lit"),
+    (r"(?<!\S)[0-9]*\.[0-9]+(?!\w)", "float"),
     (r"\"\s*[A-Za-z]*\s*\"", "string lit"),
-    (r"=", "operator"),
 ]
 
 
@@ -35,16 +37,17 @@ def main():
 def cutOneLineTokens(oneLineString):
     for regex in regexes:
         match = re.match(regex[0], oneLineString)
+        type = regex[1]
         if match:  # if we matched something, add it to the results list
             # main issues: how do we determine type? also, what if there are multiple matches of the same type?
-            results.append("<" + match.group(0) + ">") 
+            results.append("<" + type + ">, <" + match.group(0) + ">") 
 
             # we have to cut out the token we just matched
             firstHalf = oneLineString[0 : match.start()] 
             secondHalf = oneLineString[match.end() :]
             oneLineString = firstHalf + secondHalf
             oneLineString = oneLineString.lstrip() # strip leading whitespaces 
-
+        print(oneLineString)
     print(results)
 
 
