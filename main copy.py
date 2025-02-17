@@ -13,9 +13,9 @@ regexes = [
     (r"\*", "operator"),
     # separators
     (r"\)", "separator"),
-    (r"\(", "separaotr"),
-    (r":", "separaotr"),
-    (r"\"" r";", "separaotr"),
+    (r"\(", "separator"),
+    (r":", "separator"),
+    (r"\"" r";", "separator"),
     (r"(?<!\S)(?!\b(?:int|float|if|else)\b)[a-zA-Z][a-zA-Z0-9]*", "identifier"),
     (r"(?<!\S)[0-9]+(?!\S)", "int lit"),
     (r"(?<!\S)[0-9]*\.[0-9]+(?!\S)", "float"),
@@ -37,7 +37,7 @@ def cutOneLineTokens(oneLineString):
         match = re.match(regex[0], oneLineString)
         if match:  # if we matched something, add it to the results list
             # main issues: how do we determine type? also, what if there are multiple matches of the same type?
-            results.append("<" + match.group(0) + ">")
+            results.append("<" + match.group(0) + ">") 
 
             # we have to cut out the token we just matched
             firstHalf = oneLineString[0 : match.start()] 
