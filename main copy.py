@@ -35,19 +35,29 @@ def main():
 
 
 def cutOneLineTokens(oneLineString):
-    for regex in regexes:
-        match = re.match(regex[0], oneLineString)
-        type = regex[1]
-        if match:  # if we matched something, add it to the results list
-            # main issues: how do we determine type? also, what if there are multiple matches of the same type?
-            results.append("<" + type + ">, <" + match.group(0) + ">") 
+    i = 0;  #index
+    while i != len(oneLineString):  #loop through length of string, compare every char with match obj
+        tokenMatched = False    #if string gets through and lexer doesn't match anything for some reason we iterate
+                                #if this happens then the regex expressions are wrong, shouldn't happen
+        for regex in regexes:   #loop through all possible regex expression matches
+            match = re.match(regex[0], oneLineString)
+            type = regex[1]
+            if match:  # if we matched something, add it to the results list
+                results.append("<" + type + ">, <" + match.group(0) + ">")
 
-            # we have to cut out the token we just matched
-            firstHalf = oneLineString[0 : match.start()] 
-            secondHalf = oneLineString[match.end() :]
-            oneLineString = firstHalf + secondHalf
-            oneLineString = oneLineString.lstrip() # strip leading whitespaces 
-        print(oneLineString)
+                # we have to cut out the token we just matched
+                firstHalf = oneLineString[0: match.start()]
+                secondHalf = oneLineString[match.end():]
+                oneLineString = firstHalf + secondHalf
+                oneLineString = oneLineString.lstrip()  # strip leading whitespaces
+
+                #i = len(oneLineString) - 1  #lets it const loop until no more chars in string
+                tokenMatched = True #lets our check know a token was Matched and the we already iterated
+                break
+
+        if not tokenMatched:
+            i += 1
+
     print(results)
 
 
