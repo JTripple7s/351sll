@@ -26,7 +26,7 @@ regexes = [
 ]
 
 
-testString = "\"TinyPie \"\"Otherpie\" \""
+testString = "\"TinyPie \"\"Otherpie\" \"" #this test shows that we can have multiple string lit as well as a quote mark and it will all be cataloged
 results = []  # list of <token, type> strings
 
 
