@@ -25,8 +25,8 @@ regexes = [
     (r"(?<!\S)[0-9]*\.[0-9]+(?!\w)", "float"),
 ]
 
-
-testString = "\"TinyPie \"\"Otherpie\" \"" #this test shows that we can have multiple string lit as well as a quote mark and it will all be cataloged
+originalString = "int A1=5" #original test string
+testString = "\"TinyPie \", ,,\"Otherpie\" \"" #this test shows that we can have multiple string lit as well as a quote mark and it will all be cataloged
 results = []  # list of <token, type> strings
 
 
@@ -43,7 +43,7 @@ def cutOneLineTokens(oneLineString):
             match = re.match(regex[0], oneLineString)
             type = regex[1]
             if match:  # if we matched something, add it to the results list
-                if type == "string lit":
+                if type == "string lit":    #add " seperator to the regex list since quote was used to identify the string literal
                     results.append("<seperator>, <\">")
 
                 results.append("<" + type + ">, <" + match.group(0) + ">")
@@ -53,18 +53,19 @@ def cutOneLineTokens(oneLineString):
                 secondHalf = oneLineString[match.end():]
                 oneLineString = firstHalf + secondHalf
                 oneLineString = oneLineString.lstrip()  # strip leading whitespaces
+
                 if type == "string lit":
                     results.append("<seperator>, <\">")
 
-                #i = len(oneLineString) - 1  #lets it const loop until no more chars in string
                 tokenMatched = True #lets our check know a token was Matched and the we already iterated
                 break
 
         if not tokenMatched:
-            i += 1
+            oneLineString = oneLineString[:0] + oneLineString[1:] #cuts out unrecognized expression
+            #throw exception in future?
+
 
     print(results)
-
 
 if __name__ == "__main__":
     main()
