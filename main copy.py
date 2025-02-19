@@ -3,6 +3,7 @@ import re
 # list of tuples; regex and the type it is
 regexes = [
     # keys
+    (r"\"\s*[A-Za-z]*\s*\"", "string lit"),
     (r"(?<!\S)if(?!\S)", "key"),
     (r"(?<!\S)else(?!\S)", "key"),
     (r"(?<!\S)int(?!\S)", "key"),
@@ -22,11 +23,10 @@ regexes = [
     (r"(?<!\S)(?!\b(?:int|float|if|else)\b)[a-zA-Z][a-zA-Z0-9]*", "identifier"),
     (r"(?<!\S)[0-9]+(?!\w|\.\d)", "int lit"),
     (r"(?<!\S)[0-9]*\.[0-9]+(?!\w)", "float"),
-    (r"\"\s*[A-Za-z]*\s*\"", "string lit"),
 ]
 
 
-testString = "int A1 = 5;"
+testString = "\"TinyPie \"\"Otherpie\" \""
 results = []  # list of <token, type> strings
 
 
@@ -43,6 +43,9 @@ def cutOneLineTokens(oneLineString):
             match = re.match(regex[0], oneLineString)
             type = regex[1]
             if match:  # if we matched something, add it to the results list
+                if type == "string lit":
+                    results.append("<seperator>, <\">")
+
                 results.append("<" + type + ">, <" + match.group(0) + ">")
 
                 # we have to cut out the token we just matched
@@ -50,6 +53,8 @@ def cutOneLineTokens(oneLineString):
                 secondHalf = oneLineString[match.end():]
                 oneLineString = firstHalf + secondHalf
                 oneLineString = oneLineString.lstrip()  # strip leading whitespaces
+                if type == "string lit":
+                    results.append("<seperator>, <\">")
 
                 #i = len(oneLineString) - 1  #lets it const loop until no more chars in string
                 tokenMatched = True #lets our check know a token was Matched and the we already iterated
