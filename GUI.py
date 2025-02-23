@@ -1,4 +1,7 @@
 import tkinter as tk
+from GUImain import cutOneLineTokens
+
+current_line = 1
 
 window = tk.Tk()
 window.title("Lexical Analyzer for TinyPie")
@@ -25,11 +28,8 @@ txt_input.grid(row=1, column=0, padx=20)
 frm_CPL = tk.Frame(master=frm_Source)
 frm_CPL.grid(row=2, column=0, sticky="ew")
 #Row 1, Col 1 of frm_CPL
-lbl_CPL = tk.Label(master=frm_CPL, text="Current Processing Line:") #Current Processing Line
+lbl_CPL = tk.Label(master=frm_CPL, text=f"Current Processing Line: {current_line}") #Current Processing Line
 lbl_CPL.grid(row=0, column=0, sticky="w")
-#Row 1, Col 2 of frm_CPL
-lbl_LineNumber = tk.Label(master=frm_CPL, text="Insert Line Number Here")
-lbl_LineNumber.grid(row=0, column=1, sticky="e")
 
 #Row 4 of Frame 1
 btn_NextLine = tk.Button(master=frm_Source, text="Next Line")
@@ -54,7 +54,25 @@ lbl_dummy = tk.Label(master=frm_Result)
 lbl_dummy.grid(row=2, column=0)
 
 #Row 4 of Frame 2
-btn_Quit = tk.Button(master=frm_Result, text="Quit")
+btn_Quit = tk.Button(master=frm_Result, text="Quit", command=window.quit)
 btn_Quit.grid(row=3, column=0, sticky="e")
 
+def btn_NextLine_click():
+    global current_line
+    start_index = f"{current_line}.0"
+    end_index = f"{current_line}.end"
+
+    source_line = txt_input.get(start_index, end_index).strip()
+    if source_line:
+        tokens = cutOneLineTokens(source_line)
+        txt_result.delete("1.0", tk.END)
+        txt_result.insert(tk.END, tokens)
+    else:
+        txt_result.delete("1.0", tk.END)
+        txt_result.insert(tk.END, "No Input")
+
+    current_line += 1
+    lbl_CPL.config(text=f"Current Processing Line: {current_line}")
+
+btn_NextLine.config(command=btn_NextLine_click)
 window.mainloop()

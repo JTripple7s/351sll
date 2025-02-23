@@ -64,6 +64,8 @@ def cutOneLineTokens(oneLineString):
             oneLineString = oneLineString[:0] + oneLineString[1:] #cuts out unrecognized expression
             #throw exception in future?
 
+    return "\n".join(results)
+
 
     print(results)
 
