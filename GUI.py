@@ -1,5 +1,5 @@
 import tkinter as tk
-from GUImain import cutOneLineTokens
+from lexer import cutOneLineTokens
 
 current_line = 1
 
