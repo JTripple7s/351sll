@@ -64,9 +64,9 @@ def btn_NextLine_click():
 
     source_line = txt_input.get(start_index, end_index).strip()
     if source_line:
-        # tokens = cutOneLineTokens(source_line)
+        tokens = cutOneLineTokens(source_line)
         txt_result.delete("1.0", tk.END)
-        txt_result.insert(tk.END, source_line)
+        txt_result.insert(tk.END, tokens)
     else:
         txt_result.delete("1.0", tk.END)
         txt_result.insert(tk.END, "No Input")
