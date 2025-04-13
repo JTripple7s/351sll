@@ -1,5 +1,6 @@
 import tkinter as tk
 from lexer import cutOneLineTokens
+from parse import *
 
 current_line = 1
 
@@ -53,8 +54,26 @@ txt_result.grid(row=1, column=0, padx=20)
 lbl_dummy = tk.Label(master=frm_Result)
 lbl_dummy.grid(row=2, column=0)
 
-#Row 4 of Frame 2
-btn_Quit = tk.Button(master=frm_Result, text="Quit", command=window.quit)
+#Frame 3: Parse Tree
+#Row 1, Col 3 of Window
+frm_Parse = tk.Frame(window, bd=2)
+frm_Parse.grid(row=0, column=2, sticky="e")
+
+#Row 1 of Frame 3
+lbl_PTR = tk.Label(master= frm_Parse, text="Parse Tree Result:") #Lexical Analyzed Result
+lbl_PTR.grid(row=0, column=0, sticky="w")
+
+#Row 2 of Frame 3
+txt_prsResult = tk.Text(master=frm_Parse, relief=tk.SOLID, width=30, height=10)
+txt_prsResult.grid(row=1, column=0, padx=20)
+
+#Row 3 of Frame 3
+#Nothing is here
+lbl_dummy = tk.Label(master=frm_Parse)
+lbl_dummy.grid(row=2, column=0)
+
+#Row 4 of Frame 3
+btn_Quit = tk.Button(master=frm_Parse, text="Quit", command=window.quit)
 btn_Quit.grid(row=3, column=0, sticky="e")
 
 def btn_NextLine_click():
@@ -67,6 +86,10 @@ def btn_NextLine_click():
         tokens = cutOneLineTokens(source_line)
         txt_result.delete("1.0", tk.END)
         txt_result.insert(tk.END, tokens)
+        parser = Parser(tokens)
+        tree = parser.parse()
+        txt_prsResult.delete("1.0", tk.END)
+        txt_prsResult.insert(tk.END, tree)
     else:
         txt_result.delete("1.0", tk.END)
         txt_result.insert(tk.END, "No Input")

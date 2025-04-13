@@ -57,15 +57,14 @@ def cutOneLineTokens(oneLineString):
 
 
 if __name__ == "__main__":
-    if __name__ == "__main__":
-        input_string = "float myVar = 5 * 4.3 + 2.1;"
-        print("starting lex of: float myVar = 5 * 4.3 + 2.1;")
-        tokens = cutOneLineTokens(input_string)
+    input_string = "float myVar = 5 * 4.3 + 2.1;"
+    print("starting lex of: float myVar = 5 * 4.3 + 2.1;")
+    tokens = cutOneLineTokens(input_string)
 
-        print("\nTokens:", tokens)
+    print("\nTokens:", tokens)
 
-        print("\nStarting parse")
-        parser = Parser(tokens)
-        parser.parse()
-        print("\nParsing completed successfully!")
+    print("\nStarting parse")
+    parser = Parser(tokens)
+    parser.parse()
+    print("\nParsing completed successfully!")
 
