@@ -18,10 +18,10 @@ frm_Source.grid(row=0, column=0, sticky="w")
 
 #Row 1 of Frame 1
 lbl_SCI = tk.Label(master=frm_Source, text="Source Code Input:") #Source Code Input
-lbl_SCI.grid(row=0, column=0, sticky="w")
+lbl_SCI.grid(row=0, column=0, sticky="w", pady=5)
 
 #Row 2 of Frame 1
-txt_input = tk.Text(master=frm_Source, relief=tk.SOLID, width=30, height=10)
+txt_input = tk.Text(master=frm_Source, relief=tk.SOLID, width=45, height=20)
 txt_input.grid(row=1, column=0, padx=20)
 
 #Row 3 of Frame 1
@@ -43,16 +43,21 @@ frm_Result.grid(row=0, column=1, sticky="e")
 
 #Row 1 of Frame 2
 lbl_LAR = tk.Label(master= frm_Result, text="Lexical Analyzed Result:") #Lexical Analyzed Result
-lbl_LAR.grid(row=0, column=0, sticky="w")
+lbl_LAR.grid(row=0, column=0, sticky="w", pady=3)
 
 #Row 2 of Frame 2
-txt_result = tk.Text(master=frm_Result, relief=tk.SOLID, width=30, height=10)
+txt_result = tk.Text(master=frm_Result, relief=tk.SOLID, width=45, height=20)
 txt_result.grid(row=1, column=0, padx=20)
 
 #Row 3 of Frame 2
 #Nothing is here
 lbl_dummy = tk.Label(master=frm_Result)
 lbl_dummy.grid(row=2, column=0)
+
+#Row 4 of Frame 2
+#Nothing is here
+lbl_dummy2 = tk.Label(master=frm_Result)
+lbl_dummy2.grid(row=3, column=0)
 
 #Frame 3: Parse Tree
 #Row 1, Col 3 of Window
@@ -61,10 +66,10 @@ frm_Parse.grid(row=0, column=2, sticky="e")
 
 #Row 1 of Frame 3
 lbl_PTR = tk.Label(master= frm_Parse, text="Parse Tree Result:") #Lexical Analyzed Result
-lbl_PTR.grid(row=0, column=0, sticky="w")
+lbl_PTR.grid(row=0, column=0, sticky="w", pady=5)
 
 #Row 2 of Frame 3
-txt_prsResult = tk.Text(master=frm_Parse, relief=tk.SOLID, width=30, height=10)
+txt_prsResult = tk.Text(master=frm_Parse, relief=tk.SOLID, width=45, height=20)
 txt_prsResult.grid(row=1, column=0, padx=20)
 
 #Row 3 of Frame 3
@@ -85,7 +90,8 @@ def btn_NextLine_click():
     if source_line:
         tokens = cutOneLineTokens(source_line)
         txt_result.delete("1.0", tk.END)
-        txt_result.insert(tk.END, tokens)
+        for i in tokens:
+            txt_result.insert(tk.END, str(i)+"\n")
         parser = Parser(tokens)
         tree = parser.parse_one_line()
         txt_prsResult.delete("1.0", tk.END)
