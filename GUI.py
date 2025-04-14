@@ -87,9 +87,10 @@ def btn_NextLine_click():
         txt_result.delete("1.0", tk.END)
         txt_result.insert(tk.END, tokens)
         parser = Parser(tokens)
-        tree = parser.parse()
+        tree = parser.parse_one_line()
         txt_prsResult.delete("1.0", tk.END)
-        txt_prsResult.insert(tk.END, tree)
+        txt_prsResult.insert(tk.END, str(tree))
+
     else:
         txt_result.delete("1.0", tk.END)
         txt_result.insert(tk.END, "No Input")

@@ -65,6 +65,6 @@ if __name__ == "__main__":
 
     print("\nStarting parse")
     parser = Parser(tokens)
-    parser.parse()
+    parser.parse_one_line()
     print("\nParsing completed successfully!")
 
